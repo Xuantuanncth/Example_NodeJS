@@ -6,29 +6,29 @@
 // const ObjectID = mongodb.ObjectId
 
 //hoac la kieu nay
-const {MongoClient, ObjectID, Db} = require('mongodb')
+const { MongoClient, ObjectID, Db } = require('mongodb')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
 
-MongoClient.connect(connectionURL,{ useNewUrlParser:true},(error, client)=>{
-    if(error) {
+MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
+    if (error) {
         return console.log('Unable to connect to database')
     }
     console.log('Connected correctly')
     const db = client.db(databaseName)
 
     //inset one data to database
-    // db.collection('users').insertOne({
-    //     name:'Anh',
-    //     age:'25'
-    // },(error, result) => {
-    //     if(error) {
-    //         return console.log('Unable to insert user')
-    //     }
-    //     console.log(result)
-    // })
+    db.collection('users').insertOne({
+        name: 'Anh',
+        age: '25'
+    }, (error, result) => {
+        if (error) {
+            return console.log('Unable to insert user')
+        }
+        console.log(result)
+    })
 
     //Inset many data to database
     // db.collection('users').insertMany([
@@ -66,11 +66,11 @@ MongoClient.connect(connectionURL,{ useNewUrlParser:true},(error, client)=>{
 
     //Update document
     //Delete document with promesis
-    db.collection('users').deleteOne({
-        name:'Tuan'
-    }).then((result) =>{
-        console.log(result)
-    }).catch((error)=>{
-        console.log(error)
-    })
+    // db.collection('users').deleteOne({
+    //     name:'Tuan'
+    // }).then((result) =>{
+    //     console.log(result)
+    // }).catch((error)=>{
+    //     console.log(error)
+    // })
 })
