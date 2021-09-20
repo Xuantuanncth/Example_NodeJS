@@ -1,21 +1,42 @@
 const express = require('express')
-const bodyParser = require('body-parser')
+const Task = require('./models/task')
+require('./db/mongoose')
+const User = require('./models/user')
+const userRouter = require('./routers/user')
+const taskRouter = require('./routers/task')
+const bcrypt = require('bcryptjs')
+
 
 const app = express()
 const port = process.env.PORT || 3000
 app.use(express.json())
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
+app.use(userRouter)
+app.use(taskRouter)
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.get("",(req, res)=>{
-    res.send("App on")
+app.listen(port, () => {
+    console.log('Server start in port ', port)
 })
 
-app.post('/users', (req, res)=>{
-    console.log(req.body)
-    res.send("Testing")
-})
+const jwt = require('jsonwebtoken')
 
-app.listen(port,()=>{
-    console.log('Server start in port ',port)
-})
+// const myFun = async() => {
+//     const password = "123456789"
+//     const hasPassword = await bcrypt.hash(password, 8)
+
+//     console.log(password)
+//     console.log(hasPassword)
+
+//     const isMatch = await bcrypt.compare('12346789', hasPassword)
+//     console.log(isMatch)
+// }
+const myFun = async() => {
+    const _token = jwt.sign({ _id: '1234a' }, 'thisismynewcourse', { expiresIn: '1 minute' })
+    console.log(_token)
+
+    const data = jwt.verify(_token, 'thisismynewcourse')
+    console.log(data)
+
+}
+
+myFun()
