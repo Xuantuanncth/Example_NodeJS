@@ -1,14 +1,14 @@
 const express = require('express')
 const Task = require('../models/task')
+const auth = require('../middleware/auth')
 
 const router = new express.Router()
 
-router.get('/task/test', (req, res) => {
-    res.send("task test")
-})
-
-router.post('/task', async(req, res) => {
-    const task = new Task(req.body)
+router.post('/task', auth, async(req, res) => {
+    const task = new Task({
+        ...req.body,
+        owner: req.user._id
+    })
     try {
         await task.save()
         res.status(201).send(task)
@@ -75,16 +75,15 @@ router.get("/task", async(req, res) => {
     // })
 })
 
-router.get('/task/:id', async(req, res) => {
-    console.log(req.params)
-    const _id = req.params.id
+router.get('/task/:id',auth, async(req, res) => {
 
+    const _id = req.params.id
     try {
-        const _task = await Task.findById(_id)
-        if (!_task) {
+        const task = await Task.findOne({_id, owner: req.user._id})
+        if (!task) {
             return res.status(404).send()
         }
-        res.send(_task)
+        res.send(task)
     } catch (e) {
         res.send(e)
     }
