@@ -1,31 +1,37 @@
-const express = require('express')
-const Task = require('./models/task')
-require('./db/mongoose')
-const User = require('./models/user')
-const userRouter = require('./routers/user')
-const taskRouter = require('./routers/task')
-const bcrypt = require('bcryptjs')
+const app = require('./app')
 
-const app = express()
 const port = process.env.PORT || 3000
-
-//Midd
-// app.use((req, res, next)=>{
-//     if(req.method === 'GET'){
-        
-//     }else{
-//         next()
-//     }
-// })
-
-app.use(express.json())
-app.use(userRouter)
-app.use(taskRouter)
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.listen(port, () => {
     console.log('Server start in port ', port)
 })
+
+// const upload = multer({
+//     dest:'images',
+//     limits:{
+//         fileSize:100000
+//     },
+//     fileFilter(req, file, cb){
+
+//         if(!file.originalname.match(/\.(jpg|docx)$/)){
+//             return cb(new Error('Please upload a PDF'))
+//         }
+
+//         // cb(new Error('File must be a PDF'))
+//         cb(undefined, true)
+//         // cb(undefined,false)
+//     }
+// })
+
+// const errorMiddleware = (req, res, next) =>{
+//     throw new Error('From middleware')
+// }
+
+// app.post('/upload',upload.single('upload'),(req, res)=>{
+//     res.send()
+// },(error, req, res, netx)=>{
+//     res.status(400).send({error:error.message})
+// })
 
 // const jwt = require('jsonwebtoken')
 
@@ -50,15 +56,15 @@ app.listen(port, () => {
 
 // myFun()
 
-const main = async ()=>{
-    // const task = await Task.findById('61483d14db2fbaaa0aadadeb')
-    // await task.populate('owner').execPopulate()
-    // console.log(task.owner)
+// const main = async ()=>{
+//     // const task = await Task.findById('61483d14db2fbaaa0aadadeb')
+//     // await task.populate('owner').execPopulate()
+//     // console.log(task.owner)
 
-    const user = await User.findById('61483c2c2e65a195fe3551b5')
-    console.log(user)
-    await user.populate('task') //.execPopulate()
-    console.log(user.tasks)
-}
+//     const user = await User.findById('61497e8ab18881b4f10cfd41')
+//     console.log(user)
+//     await user.populate('tasks')
+//     console.log(user.tasks)
+// }
 
 // main()
